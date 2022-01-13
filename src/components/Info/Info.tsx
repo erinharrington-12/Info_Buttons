@@ -69,6 +69,10 @@ const ICON_STYLE: React.CSSProperties = {
   marginRight: '5px'
 };
 
+const BUTTON_NAME = StyledText.text({
+  text: 'Buttons Box',
+});
+
 const SIMULATION_NAME = StyledText.text({
   text: 'Simulation',
 });
@@ -106,6 +110,47 @@ const ResetIcon = styled(Fa, ({ theme }: ThemeProps) => ({
   transition: 'opacity 0.2s'
 }));
 
+const buttonClick = option =>{
+    switch(option) {
+        case "A":
+            alert("You clicked A");
+            break;
+        case "B":
+            alert("You clicked B");
+            break;
+        case "C":
+            alert("You clicked C");
+            break;
+        default:
+            break;
+    }
+};
+
+const ButtonStyle = styled("button", props =>  ({
+
+    color: "#000",
+    background: "#276ef1",
+    border: "outset",
+    padding: '10px',
+    margin: '15px',
+    alignContent: "center"
+        
+    })
+);
+        
+ const ButtonObject = () => {
+          return (
+            <>
+                <ButtonStyle onClick = {() => buttonClick("A")}> A </ButtonStyle>
+                <ButtonStyle onClick = {() => buttonClick("B")}> B </ButtonStyle>
+                <ButtonStyle onClick = {() => buttonClick("C")}> C </ButtonStyle>
+            </>
+         );
+         
+};       
+
+
+
 class Info extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -123,13 +168,14 @@ class Info extends React.PureComponent<Props, State> {
       }
     });
   };
-
+ 
   private onResetLocationClick_ = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
     event.stopPropagation();
     this.props.onSetRobotStartPosition(this.props.robotStartPosition);
   };
 
+  
   render() {
     const { props, state } = this;
     const {
@@ -157,6 +203,10 @@ class Info extends React.PureComponent<Props, State> {
       ]
     });
 
+
+
+
+  
     const servos = robotState.servoPositions.map((value, i) => (
       <Row key={`servo-pos-${i}`} theme={theme}>
         <SensorWidget value={value} name={`get_servo_position(${i})`} plotTitle='Servo Position Plot' theme={theme} />
@@ -201,6 +251,15 @@ class Info extends React.PureComponent<Props, State> {
               onSetRobotStartPosition={this.props.onSetRobotStartPosition}
               theme={theme}
             />
+          </StyledSection>
+          <StyledSection
+            name = {BUTTON_NAME}
+            theme = {theme}
+            onCollapsedChange={this.onCollapsedChange_('button_pos')}
+            collapsed={collapsed['button_pos']}
+          >
+            
+          {ButtonObject()}
           </StyledSection>
           <StyledSection
             name={SERVOS_NAME}
